@@ -1,12 +1,12 @@
 # Enterprise Dev Workflow Marketplace
 
-Private-beta marketplace for the `enterprise-dev-workflow` Codex plugin.
+Public marketplace for the `enterprise-dev-workflow` Codex plugin.
 
 The plugin provides risk-aware software delivery workflows with L1/L2/L3 routing, systematic debugging, practical test-driven development, review, security checks, model routing, and evidence-based completion gates.
 
 ## Install
 
-You need access to this GitHub repository.
+Install directly from this public GitHub marketplace.
 
 ```powershell
 codex plugin marketplace add https://github.com/Louyongqing/enterprise-dev-workflow

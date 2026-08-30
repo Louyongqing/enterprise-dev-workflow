@@ -45,7 +45,7 @@ The optional visual brainstorming companion starts only after user approval. It 
 
 ## NOT VERIFIED
 
-- Installation from the remote GitHub marketplace: verify after the private repository is created and pushed.
+- Installation from the remote GitHub marketplace in a fresh Codex profile: the public repository and marketplace file are reachable, but a clean-profile installation has not been run.
 - All 20 routing cases in fresh installed tasks: the full set was schema-validated, not rerun end to end for this packaging-only change.
 - Token, latency, monetary, or subscription-quota savings: complete comparable host measurements are unavailable.
 - Production application behavior, CI, deployment, migrations, rollback, performance, or security posture: no target application is part of this package verification.
