@@ -1,0 +1,6 @@
+interface:
+  display_name: "Test-Driven Development"
+  short_description: "Implement features and bug fixes with test-first development"
+  default_prompt: "Use $test-driven-development to implement this behavior with a meaningful Red-Green verification cycle."
+policy:
+  allow_implicit_invocation: false

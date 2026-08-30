@@ -1,0 +1,6 @@
+interface:
+  display_name: "Verification Before Completion"
+  short_description: "Require fresh evidence before success claims"
+  default_prompt: "Use $verification-before-completion to verify every material completion claim with current evidence."
+policy:
+  allow_implicit_invocation: false

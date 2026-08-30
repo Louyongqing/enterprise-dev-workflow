@@ -1,0 +1,6 @@
+interface:
+  display_name: "Enterprise Delivery"
+  short_description: "Route software work by risk and apply delivery gates"
+  default_prompt: "Use $enterprise-delivery to classify this software task as L1, L2, or L3 and apply the required workflow."
+policy:
+  allow_implicit_invocation: true

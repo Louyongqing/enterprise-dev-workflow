@@ -1,0 +1,6 @@
+interface:
+  display_name: "Dispatching Parallel Agents"
+  short_description: "Parallelize independent work with one writer"
+  default_prompt: "Use $dispatching-parallel-agents to split only independent tasks and preserve a single integration owner."
+policy:
+  allow_implicit_invocation: false

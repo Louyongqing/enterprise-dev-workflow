@@ -1,0 +1,6 @@
+interface:
+  display_name: "Writing Plans"
+  short_description: "Turn specs into detailed multi-step implementation plans"
+  default_prompt: "Use $writing-plans to turn this approved design into an implementation-ready plan."
+policy:
+  allow_implicit_invocation: false

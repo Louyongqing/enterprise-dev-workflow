@@ -1,0 +1,6 @@
+interface:
+  display_name: "Project Verification"
+  short_description: "Run the final evidence-based quality gate"
+  default_prompt: "Use $project-verification to select and run the applicable project checks and report exact evidence."
+policy:
+  allow_implicit_invocation: false

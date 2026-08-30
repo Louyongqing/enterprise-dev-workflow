@@ -1,0 +1,20 @@
+{
+  "name": "enterprise-dev-workflow",
+  "interface": {
+    "displayName": "Enterprise Dev Workflow"
+  },
+  "plugins": [
+    {
+      "name": "enterprise-dev-workflow",
+      "source": {
+        "source": "local",
+        "path": "./plugins/enterprise-dev-workflow"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

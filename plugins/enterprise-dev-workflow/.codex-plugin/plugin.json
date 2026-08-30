@@ -1,0 +1,37 @@
+{
+  "name": "enterprise-dev-workflow",
+  "version": "0.1.0+codex.20260828022715",
+  "description": "Risk-aware enterprise software delivery workflows for Codex.",
+  "author": {
+    "name": "Louyongqing",
+    "url": "https://github.com/Louyongqing"
+  },
+  "homepage": "https://github.com/Louyongqing/enterprise-dev-workflow",
+  "repository": "https://github.com/Louyongqing/enterprise-dev-workflow",
+  "license": "MIT",
+  "keywords": [
+    "software-delivery",
+    "model-routing",
+    "verification",
+    "security-review",
+    "tdd"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Enterprise Dev Workflow",
+    "shortDescription": "Risk-aware engineering delivery gates",
+    "longDescription": "Classifies software work by risk, routes it to appropriate models and workflows, and requires current verification evidence before completion claims.",
+    "developerName": "Louyongqing",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Classify this software task as L1, L2, or L3 and apply the required delivery workflow.",
+      "Review this change and report verified and not-verified checks.",
+      "Debug this failure from evidence before proposing a fix."
+    ]
+  }
+}

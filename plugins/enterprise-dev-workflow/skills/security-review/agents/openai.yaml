@@ -1,0 +1,6 @@
+interface:
+  display_name: "Security Review"
+  short_description: "Review affected trust boundaries and controls"
+  default_prompt: "Use $security-review to inspect the affected trust boundaries, validate findings, and verify focused remediations."
+policy:
+  allow_implicit_invocation: false

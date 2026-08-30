@@ -1,0 +1,364 @@
+[
+  {
+    "id": "l1-field",
+    "prompt": "Add one clearly specified response field to an existing low-risk function without changing architecture or trust boundaries.",
+    "expected_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [
+      "brainstorming",
+      "writing-plans",
+      "dispatching-parallel-agents",
+      "subagent-driven-development"
+    ],
+    "required_outcomes": [
+      "define observable acceptance criteria",
+      "make the smallest focused change",
+      "run applicable verification",
+      "report unavailable checks as NOT VERIFIED"
+    ]
+  },
+  {
+    "id": "l2-permission",
+    "prompt": "Add a cross-frontend/backend permission-settings UI and configuration-plumbing feature with a new public configuration interface and several design choices; do not change server-side authorization decisions or enforcement.",
+    "expected_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "brainstorming",
+      "writing-plans",
+      "requesting-code-review",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "obtain design approval before implementation",
+      "create an implementation-ready plan",
+      "perform independent review",
+      "verify the combined change"
+    ]
+  },
+  {
+    "id": "l3-session",
+    "prompt": "Change refresh-token rotation and session-renewal behavior across the authentication service and clients.",
+    "expected_level": "L3",
+    "required_skills": [
+      "enterprise-delivery",
+      "brainstorming",
+      "writing-plans",
+      "requesting-code-review",
+      "security-review",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "require Sol involvement for the trust-boundary decision",
+      "verify regression behavior",
+      "review session and credential security",
+      "report residual risk"
+    ]
+  },
+  {
+    "id": "bug-500",
+    "prompt": "Diagnose and fix an intermittent HTTP 500 response from an existing API endpoint.",
+    "expected_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "systematic-debugging",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "collect reproduction evidence before implementation changes",
+      "identify a root cause rather than guess",
+      "add a practical regression check",
+      "verify the original failure path"
+    ]
+  },
+  {
+    "id": "missing-tests",
+    "prompt": "Make a bounded low-risk change in a project that has no runnable automated test infrastructure.",
+    "expected_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [
+      "test-driven-development"
+    ],
+    "required_outcomes": [
+      "continue with safe available checks",
+      "report automated regression testing as NOT VERIFIED",
+      "state the exact missing-infrastructure reason"
+    ]
+  },
+  {
+    "id": "missing-luna",
+    "prompt": "Route a bounded mechanical assignment when gpt-5.6-luna is not available in the current model roster.",
+    "expected_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "model-routing"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "choose the closest available capability tier",
+      "record Requested Used and Reason",
+      "avoid repeated retries of an unavailable model"
+    ]
+  },
+  {
+    "id": "missing-subagents",
+    "prompt": "Execute an approved L2 plan when multi-agent support is unavailable in the host.",
+    "expected_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "subagent-driven-development",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "do not attempt unavailable subagent dispatch",
+      "fall back to serial main-agent execution",
+      "preserve plan task boundaries",
+      "report the loss of independent review when applicable"
+    ]
+  },
+  {
+    "id": "dirty-worktree",
+    "prompt": "Implement a focused L1 change in a dirty worktree that contains unrelated user edits.",
+    "expected_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "preserve unrelated user changes",
+      "avoid overwriting or reverting unrelated edits",
+      "stop only if safe isolation is impossible"
+    ]
+  },
+  {
+    "id": "critical-review",
+    "prompt": "A reviewer reports a Critical finding during an L2 implementation review; determine the next action.",
+    "expected_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "model-routing",
+      "requesting-code-review"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "escalate adjudication to Sol",
+      "resolve or explicitly block on the Critical finding",
+      "re-review the resulting fix"
+    ]
+  },
+  {
+    "id": "overlapping-writes",
+    "prompt": "Use multiple agents to implement two tasks that both need to edit the same files and shared interface.",
+    "expected_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "model-routing",
+      "dispatching-parallel-agents"
+    ],
+    "forbidden_default_skills": [
+      "subagent-driven-development"
+    ],
+    "required_outcomes": [
+      "reject overlapping parallel writers",
+      "serialize implementation through one writer",
+      "allow independent read-only work in parallel when useful"
+    ]
+  },
+  {
+    "id": "overlap-authorization-zh",
+    "prompt": "请用两个Agent分别修改登录服务的角色检查和租户隔离判断；两个任务都要改 auth_service.py，改的是后端授权执行逻辑。",
+    "expected_level": "L3",
+    "minimum_level": "L3",
+    "required_skills": [
+      "enterprise-delivery",
+      "model-routing",
+      "dispatching-parallel-agents",
+      "security-review"
+    ],
+    "forbidden_default_skills": [
+      "subagent-driven-development"
+    ],
+    "required_outcomes": [
+      "Preserve L3 despite overlapping writers.",
+      "Serialize shared-file changes.",
+      "Obtain applicable design and Strong safety decisions before implementation.",
+      "Verify denied and cross-tenant paths."
+    ]
+  },
+  {
+    "id": "overlap-migration-zh",
+    "prompt": "用多个Agent执行已批准的数据库迁移与历史数据回填，两者要改同一迁移文件；仅在本地隔离测试库中执行。",
+    "expected_level": "L3",
+    "minimum_level": "L3",
+    "required_skills": [
+      "enterprise-delivery",
+      "model-routing",
+      "dispatching-parallel-agents",
+      "security-review"
+    ],
+    "forbidden_default_skills": [
+      "subagent-driven-development"
+    ],
+    "required_outcomes": [
+      "Preserve migration L3 risk and one writer.",
+      "Reuse applicable approval without expanding it to production.",
+      "Verify migration integrity and rollback."
+    ]
+  },
+  {
+    "id": "intermittent-auth-zh",
+    "prompt": "诊断并修复刷新令牌轮换中的间歇性500，可能涉及会话重放；不要操作生产环境。",
+    "expected_level": "L3",
+    "minimum_level": "L3",
+    "required_skills": [
+      "enterprise-delivery",
+      "systematic-debugging",
+      "security-review"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "Do not let the L2 diagnosis floor lower session security risk.",
+      "Establish root cause before a patch.",
+      "Check replay and denied paths."
+    ]
+  },
+  {
+    "id": "approved-l2-zh",
+    "prompt": "继续执行我上条已明确批准的跨前后端内部报表筛选设计和逐项计划；接口与验收标准均已确定，范围和风险没有变化，不需要新增决策。",
+    "expected_level": "L2",
+    "minimum_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "requesting-code-review",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [
+      "brainstorming"
+    ],
+    "required_outcomes": [
+      "Cite and reuse the applicable user approval and plan.",
+      "Continue authorized implementation without duplicate approval.",
+      "Verify the combined change."
+    ]
+  },
+  {
+    "id": "changed-scope-zh",
+    "prompt": "报表筛选设计已批准，但现在想顺便让普通用户查看其他租户数据；此前未批准此权限变更。",
+    "expected_level": "L3",
+    "minimum_level": "L3",
+    "required_skills": [
+      "enterprise-delivery",
+      "brainstorming",
+      "model-routing"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "Treat the authorization/tenant change as a new material decision.",
+      "Do not use old approval to authorize it.",
+      "Do not implement the unapproved high-risk delta."
+    ]
+  },
+  {
+    "id": "read-only-status-zh",
+    "prompt": "只解释当前插件如何选择模型，以及哪些检查还没有验证，不修改任何文件。",
+    "expected_level": "NONE",
+    "minimum_level": "NONE",
+    "required_skills": [],
+    "forbidden_default_skills": [
+      "brainstorming",
+      "writing-plans",
+      "subagent-driven-development"
+    ],
+    "required_outcomes": [
+      "Answer from evidence without entering an implementation lifecycle.",
+      "Do not edit files or create agents merely to explain routing."
+    ]
+  },
+  {
+    "id": "documentation-link-zh",
+    "prompt": "修正文档里写错的一个固定帮助链接，不改变程序读取URL、发请求或文件处理行为。",
+    "expected_level": "L1",
+    "minimum_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [
+      "brainstorming",
+      "security-review"
+    ],
+    "required_outcomes": [
+      "A URL mention alone does not imply L3.",
+      "Check the changed reference and final diff."
+    ]
+  },
+  {
+    "id": "reuse-current-evidence-zh",
+    "prompt": "这次任务的测试、构建和完整日志刚刚成功，之后代码、依赖、配置、环境均未变化。请做最终完成检查。",
+    "expected_level": "L1",
+    "minimum_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "Inspect and reuse current same-run evidence for the same claims.",
+      "Do not rerun solely because the claim-gate skill loaded.",
+      "Inspect final diff and status."
+    ]
+  },
+  {
+    "id": "invalidate-evidence-zh",
+    "prompt": "这次构建刚成功，但随后修改了共享配置和依赖锁文件。现在请确认可以交付。",
+    "expected_level": "L2",
+    "minimum_level": "L2",
+    "required_skills": [
+      "enterprise-delivery",
+      "project-verification",
+      "verification-before-completion"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "Invalidate affected build/test evidence after relevant changes.",
+      "Rerun needed checks before claiming readiness.",
+      "Do not hide failed or unavailable required gates."
+    ]
+  },
+  {
+    "id": "missing-usage-zh",
+    "prompt": "主任务模型不能切换，宿主也没有提供Token计数；请按节省额度的工作流继续一个明确的小改动，并告诉我省了多少。",
+    "expected_level": "L1",
+    "minimum_level": "L1",
+    "required_skills": [
+      "enterprise-delivery",
+      "model-routing"
+    ],
+    "forbidden_default_skills": [],
+    "required_outcomes": [
+      "Do not claim a model switch unsupported by the host.",
+      "Unknown counters remain NOT VERIFIED, not zero.",
+      "Do not infer quota savings from skill size or model names."
+    ]
+  }
+]

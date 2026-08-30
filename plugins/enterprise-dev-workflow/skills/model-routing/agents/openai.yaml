@@ -1,0 +1,6 @@
+interface:
+  display_name: "Model Routing"
+  short_description: "Choose Sol, Terra, or Luna by task risk"
+  default_prompt: "Use $model-routing to choose the least expensive reliable model for each development role."
+policy:
+  allow_implicit_invocation: false

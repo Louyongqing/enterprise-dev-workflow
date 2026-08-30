@@ -1,0 +1,66 @@
+[
+  {
+    "case_id": "overlap-auth-risk-only",
+    "variant": "baseline",
+    "fixture_id": "paired-chinese-risk-prompts-v1",
+    "environment": "Codex Windows 2026-08-28 read-only independent evaluation",
+    "requested_model": "gpt-5.6-terra",
+    "actual_model": null,
+    "outcome": "FAIL",
+    "evidence": [
+      "docs/verification.md#behavioral-evidence"
+    ],
+    "elapsed_seconds": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "rework_cycles": null
+  },
+  {
+    "case_id": "overlap-auth-risk-only",
+    "variant": "candidate",
+    "fixture_id": "paired-chinese-risk-prompts-v1",
+    "environment": "Codex Windows 2026-08-28 read-only independent evaluation",
+    "requested_model": "gpt-5.6-terra",
+    "actual_model": null,
+    "outcome": "PASS",
+    "evidence": [
+      "docs/verification.md#behavioral-evidence"
+    ],
+    "elapsed_seconds": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "rework_cycles": null
+  },
+  {
+    "case_id": "overlap-migration-risk-only",
+    "variant": "baseline",
+    "fixture_id": "paired-chinese-risk-prompts-v1",
+    "environment": "Codex Windows 2026-08-28 read-only independent evaluation",
+    "requested_model": "gpt-5.6-terra",
+    "actual_model": null,
+    "outcome": "FAIL",
+    "evidence": [
+      "docs/verification.md#behavioral-evidence"
+    ],
+    "elapsed_seconds": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "rework_cycles": null
+  },
+  {
+    "case_id": "overlap-migration-risk-only",
+    "variant": "candidate",
+    "fixture_id": "paired-chinese-risk-prompts-v1",
+    "environment": "Codex Windows 2026-08-28 read-only independent evaluation",
+    "requested_model": "gpt-5.6-terra",
+    "actual_model": null,
+    "outcome": "PASS",
+    "evidence": [
+      "docs/verification.md#behavioral-evidence"
+    ],
+    "elapsed_seconds": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "rework_cycles": null
+  }
+]
