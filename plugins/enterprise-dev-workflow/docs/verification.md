@@ -1,10 +1,10 @@
 # Distribution Verification
 
-Date: 2026-08-30
+Date: 2026-09-16
 
-Version: `0.1.0+codex.20260828022715`
+Base version: `2.0.0` (local installs add one `+codex.<cachebuster>` suffix).
 
-This report covers the distributable plugin package in this repository. It does not certify any target project's production readiness or regulatory compliance.
+This report covers the distributable plugin package in this repository. It does not certify a consuming application's production readiness.
 
 ## Package checks
 
@@ -12,40 +12,31 @@ Run from `plugins/enterprise-dev-workflow`:
 
 ```powershell
 python -B -m unittest discover -s tests -v
-python -B scripts/validate_routing_contract.py .
-python -B scripts/summarize_eval_runs.py evals/optimization-run-records.json
-$codexRoot = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex' }
-python -B (Join-Path $codexRoot 'skills/.system/plugin-creator/scripts/validate_plugin.py') .
+python -B scripts/validate_workflow_contract.py .
+$codexInstallRoot = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path ([Environment]::GetFolderPath('UserProfile')) '.codex' }
+python -B (Join-Path $codexInstallRoot 'skills/.system/plugin-creator/scripts/validate_plugin.py') .
 Get-ChildItem skills -Directory | ForEach-Object {
-  python -B (Join-Path $codexRoot 'skills/.system/skill-creator/scripts/quick_validate.py') $_.FullName
+  python -B (Join-Path $codexInstallRoot 'skills/.system/skill-creator/scripts/quick_validate.py') $_.FullName
 }
 ```
 
 Results:
 
-- 47 unit, contract, and distribution-hygiene tests passed.
-- Package structure and the 20-case evaluation schema passed validation.
+- 20 workflow-contract and distribution-hygiene tests passed.
+- Package structure and the 12-case workflow schema passed validation.
 - Plugin manifest validation passed.
-- All 12 bundled skills passed validation.
-- `enterprise-delivery` remains the only implicitly invoked skill.
+- All six bundled skills passed validation.
+- `enterprise-delivery` is the only implicitly invoked skill.
+- Shipped Markdown, JSON, and YAML contain no removed task-tier or host-model-choice contract.
 
-## Behavioral evidence
+## Scope evidence
 
-The maintained evaluation set covers L1/L2/L3 routing, composite security and migration risks, approval reuse, stale evidence, read-only requests, unavailable capabilities, and missing telemetry.
+The package contains six focused skills and four reusable standards references. The former task-tier, host-model-choice, visual brainstorming companion, agent orchestration, planning, review, duplicated verification, and optimization-metrics packages are no longer distributed.
 
-Two paired risk probes in `evals/optimization-run-records.json` retain the reviewed baseline/candidate outcomes: the baseline failed both risk requirements and the candidate passed both. Actual executing model IDs, token counts, latency, rework, and quota impact were unavailable and remain `null`. The summarizer therefore reports zero comparable passing pairs and no numeric savings.
-
-Schema and package validation do not prove that every model will follow every workflow instruction. Representative behavior must be checked in a fresh task after installation.
-
-## Distribution privacy
-
-The shared package excludes the original local Git history and internal verification artifacts containing workstation paths or task identifiers. No credentials are required by the plugin, and no MCP server, app connection, or lifecycle hook is bundled.
-
-The optional visual brainstorming companion starts only after user approval. It binds to loopback by default and creates a new key, port, and unpredictable owner-only OS runtime/temp directory for every launch; inherited environment variables cannot override that rotation. Visual content may be persisted under the consuming project's `.enterprise-dev-workflow/brainstorm/` directory; authenticated state remains outside the project. The stop path removes sensitive files without recursively deleting caller-supplied directories. The companion does not automatically load third-party brand images.
+The maintained workflow cases cover small changes, large requirements, bugs, UI, API, database, architecture, authorization, read-only diagnosis, dirty worktrees, missing test infrastructure, and out-of-scope discoveries.
 
 ## NOT VERIFIED
 
-- Installation from the remote GitHub marketplace in a fresh Codex profile: the public repository and marketplace file are reachable, but a clean-profile installation has not been run.
-- All 20 routing cases in fresh installed tasks: the full set was schema-validated, not rerun end to end for this packaging-only change.
-- Token, latency, monetary, or subscription-quota savings: complete comparable host measurements are unavailable.
-- Production application behavior, CI, deployment, migrations, rollback, performance, or security posture: no target application is part of this package verification.
+- Fresh-task behavior for all 12 workflow cases: the package and case schema are validated, but each prompt has not been exercised end to end in a newly installed task.
+- Installation or upgrade from the remote GitHub marketplace for version 2.0.0: no remote publication or clean-profile installation was requested in this refactor.
+- Consuming-application build, browser, API, database, deployment, performance, or security behavior: this repository contains a skills-only plugin, not a target application.

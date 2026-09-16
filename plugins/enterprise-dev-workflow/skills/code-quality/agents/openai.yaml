@@ -1,0 +1,6 @@
+interface:
+  display_name: "Code Quality"
+  short_description: "Keep code cohesive, clear, and no more complex than needed"
+  default_prompt: "Use $code-quality to review this implementation for clarity, cohesion, coupling, and unnecessary complexity."
+policy:
+  allow_implicit_invocation: false

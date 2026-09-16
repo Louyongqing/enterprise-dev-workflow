@@ -1,0 +1,6 @@
+interface:
+  display_name: "Verification"
+  short_description: "Prove the requested behavior, report gaps, and stop"
+  default_prompt: "Use $verification to run proportionate checks, inspect final scope, and report exact evidence."
+policy:
+  allow_implicit_invocation: false

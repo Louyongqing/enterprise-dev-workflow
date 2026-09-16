@@ -1,44 +1,41 @@
 # Enterprise Dev Workflow
 
-Enterprise Dev Workflow is a self-contained Codex plugin for risk-aware software delivery. It applies the lightest workflow that matches the work while requiring current evidence before completion claims.
+Enterprise Dev Workflow 2.0 is a self-contained Codex plugin for disciplined software delivery. It helps Codex write less unnecessary code by controlling scope, reusing existing project conventions, routing only relevant skills, and stopping as soon as the requested result is verified.
 
-## Routing levels
+## Core workflow
 
-- **L1 - Routine change:** clear, isolated, low-risk work. No brainstorming, implementation plan, review loop, or subagent by default.
-- **L2 - Complex feature:** non-trivial, cross-module, interface, or architectural work. Reuses applicable design approval and plans; otherwise requires the missing design/plan decision. Bounded work can use a concise plan. Independent review and final verification remain required.
-- **L3 - High-risk change:** authentication, authorization enforcement, payments, uploads, external URLs, files, commands, secrets, admin capabilities, migrations, production data, concurrency, destructive operations, or material integrity risk. Permission-settings UI or configuration plumbing remains L2 when it does not change server-side authorization decisions or enforcement. L3 adds Strong-model risk decisions and scoped security review.
+```text
+Understand -> Recon -> Decompose -> Scope Lock -> Skill Route
+-> Implement -> Quality Check -> Verify -> STOP
+```
 
-Hidden complexity upgrades the level. It never silently downgrades discovered risk.
+The workflow begins with the user's goal, observable acceptance criteria, known constraints, and explicit non-goals. It inspects the existing codebase before creating new structure, breaks large requirements into independently verifiable business tasks, and records each task's `Must Do`, `May Do`, and `Must Not Do` boundary.
 
-Risk and scheduling are separate: overlapping writers have an L2 floor, but authorization, migrations and other L3 boundaries remain L3. Mere mentions of a URL, file or permission label do not automatically make a documentation/display change high-risk.
+Implementation follows the smallest sufficient change. SOLID is applied pragmatically, related business code stays cohesive, cross-module dependencies remain intentional, and abstractions are introduced only for a demonstrated need. Out-of-scope problems are reported instead of being fixed automatically.
 
-## Approval and evidence reuse
+## Skill routing
 
-Reuse explicit user approvals when scope, interfaces, acceptance criteria, risk and allowed actions remain unchanged. Reapprove material deltas; do not treat a prior approval as permission for new external/destructive actions. Architectural and L3 work retains durable safety/rollback plans.
+The bundled skills are intentionally small:
 
-Verification skills share one current evidence ledger. Reuse complete checks from the same run only when relevant inputs/environment are unchanged; rerun invalidated or uncertain checks. Final diff/status inspection is always required.
+- `enterprise-delivery` is the only implicit entry point.
+- `task-decomposition` splits large or cross-cutting requirements.
+- `scope-control` locks authorized changes and handles discoveries outside scope.
+- `code-quality` applies the coding, naming, cohesion, comments, and structure rules.
+- `systematic-debugging` establishes a root cause before a bug fix.
+- `verification` selects proportionate checks and guards completion claims.
 
-## Model policy
+Specialized work is routed to an available specialist skill only when the task actually needs it: UI, browser behavior, APIs, databases, architecture, security boundaries, codebase reconnaissance, or project verification. The plugin does not choose execution models and does not turn every task into a heavyweight process.
 
-- **Strong - `gpt-5.6-sol`:** requirements, architecture, decomposition, security decisions, concurrency, migrations, critical findings, and high-risk integration.
-- **Standard - `gpt-5.6-terra`:** routine engineering judgment, bounded multi-file implementation, test design, integration analysis, and default independent review.
-- **Economy - `gpt-5.6-luna`:** search, extraction, mechanical edits, repetitive work, and executing established tests.
+## Engineering standards
 
-When a preferred model is unavailable, the workflow selects the closest available tier and records the substitution instead of retrying a nonexistent model.
+The reusable standards live under `references/`:
 
-Model preferences are not automatic host controls. The current main model does not change because a skill names another model. Report actual model/usage only from host evidence, and never invent token or quota savings. The optional comparison procedure is in `skills/model-routing/references/evaluation.md`.
+- `coding-standards.md`
+- `comments.md`
+- `testing.md`
+- `task-template.md`
 
-## Agent safety
-
-The plugin defaults to one writer. Read-only analysis may run in parallel. Parallel writes require provably disjoint file ownership or existing isolated workspaces, no shared interface changes, and no dependency on shared uncommitted state.
-
-Multi-agent support is optional. When unavailable or unauthorized, work continues serially through the main agent.
-
-## Optional visual companion
-
-The brainstorming skill can offer a local browser companion when a visual comparison would materially help. It starts only after user approval, binds to loopback by default, and creates a new key, port, and unpredictable owner-only OS runtime/temp directory for every launch. If project persistence is selected, visual content is written to a symlink-checked session under `.enterprise-dev-workflow/brainstorm/`; each generated session has a self-ignoring `.gitignore`, while authenticated state stays outside the project. A restart requires opening the newly returned complete URL. Remove or revise the generated `.gitignore` only when those mockups are intentionally versioned.
-
-The companion does not automatically load third-party brand images. Its upstream attribution link is contacted only if the user chooses to open it.
+The guiding rule is: difficult problems deserve deeper reasoning, not automatically more code.
 
 ## Verification
 
@@ -62,17 +59,16 @@ codex plugin add enterprise-dev-workflow@enterprise-dev-workflow
 
 Restart Codex or start a new task after installation so skill discovery uses the installed package.
 
-Runtime routing is not considered validated until the representative cases in `evals/routing-cases.json` have been exercised in a fresh task.
+Runtime behavior is not considered validated until the representative cases in `evals/workflow-cases.json` have been exercised in a fresh task.
 
 ## Development checks
 
 ```powershell
 python -B -m unittest discover -s tests -v
-python -B scripts/validate_routing_contract.py .
-python -B scripts/summarize_eval_runs.py <reviewed-run-records.json>
+python -B scripts/validate_workflow_contract.py .
 ```
 
-Package/schema tests do not certify agent behavior. The evaluation set includes composite risks, approval/evidence reuse, Chinese prompts and missing telemetry. `evals/delivery-fixture/` contains deliberately defective, isolated test inputs; copy them to a temporary workspace before evaluation and never deploy them. Use `evals/check_delivery_fixture.py` to independently check trusted resulting artifacts.
+Package and schema tests do not certify agent behavior. The evaluation set covers small changes, large requirements, bugs, UI, APIs, databases, architecture, security-sensitive work, dirty worktrees, unavailable tests, and scope expansion.
 
 See `docs/verification.md` for package evidence, behavioral-evaluation boundaries, and limitations.
 

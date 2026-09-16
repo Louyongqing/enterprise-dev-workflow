@@ -8,18 +8,7 @@
 - License: MIT
 - Copyright: Copyright (c) 2025 Jesse Vincent
 
-The following skills are vendored and adapted for compatibility with Enterprise Dev Workflow:
-
-- `brainstorming`
-- `writing-plans`
-- `systematic-debugging`
-- `verification-before-completion`
-- `test-driven-development`
-- `requesting-code-review`
-- `dispatching-parallel-agents`
-- `subagent-driven-development`
-
-Adaptations cover implicit-invocation policy, risk-level routing, conditional TDD, Sol/Terra/Luna model roles, single-writer safety, removal of excluded workflow dependencies, and evidence reporting. Supporting files inside those skill directories are bundled with the adapted package.
+The `systematic-debugging` skill is adapted from the project's root-cause-first debugging approach. The 2.0 package rewrites it as a concise, scope-controlled workflow and does not bundle the upstream supporting scripts or reference files.
 
 ### Upstream MIT License
 

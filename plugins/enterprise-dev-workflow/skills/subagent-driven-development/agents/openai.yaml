@@ -1,6 +1,0 @@
-interface:
-  display_name: "Subagent-Driven Development"
-  short_description: "Execute approved plans with bounded agent roles"
-  default_prompt: "Use $subagent-driven-development to execute this approved plan with one integration owner and independent task review."
-policy:
-  allow_implicit_invocation: false

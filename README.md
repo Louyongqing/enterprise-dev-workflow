@@ -2,7 +2,7 @@
 
 Public marketplace for the `enterprise-dev-workflow` Codex plugin.
 
-The plugin provides risk-aware software delivery workflows with L1/L2/L3 routing, systematic debugging, practical test-driven development, review, security checks, model routing, and evidence-based completion gates.
+The plugin provides a lightweight engineering workflow for understanding requests, decomposing large work, locking scope, routing only the skills a task needs, implementing the smallest sufficient change, and verifying the result before stopping.
 
 ## Install
 
@@ -30,7 +30,7 @@ Run checks from `plugins/enterprise-dev-workflow`:
 
 ```powershell
 python -B -m unittest discover -s tests -v
-python -B scripts/validate_routing_contract.py .
+python -B scripts/validate_workflow_contract.py .
 ```
 
 See the plugin's own README and verification report for scope and limitations.

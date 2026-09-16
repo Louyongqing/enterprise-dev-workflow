@@ -1,0 +1,6 @@
+interface:
+  display_name: "Task Decomposition"
+  short_description: "Split broad work into verifiable business tasks"
+  default_prompt: "Use $task-decomposition to split this requirement into cohesive, independently verifiable tasks."
+policy:
+  allow_implicit_invocation: false

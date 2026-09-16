@@ -1,63 +1,122 @@
 ---
 name: enterprise-delivery
-description: Use for implementing, fixing, reviewing, refactoring, or preparing to deliver software. Selects risk-scaled planning, testing, review, and verification workflows.
+description: Use for implementing, fixing, reviewing, refactoring, or preparing to deliver software. Enforces task understanding, reconnaissance, decomposition, scope control, selective skill routing, minimal implementation, quality checks, verification, and a strict stop condition.
 ---
 
 # Enterprise Delivery
 
-Use the lightest workflow that protects the requested outcome. Read repository instructions, inspect workspace state, preserve unrelated changes, and define observable acceptance criteria.
+Follow this sequence for software changes:
 
-## Request Boundary
+```text
+Understand -> Recon -> Decompose -> Scope Lock -> Skill Route
+-> Implement -> Quality Check -> Verify -> STOP
+```
 
-Explanations, status reports, diagnoses, and read-only reviews do not authorize implementation. Inspect and report; classify a proposed change if useful without starting its implementation lifecycle. For changes, use the workflow below.
+Do not replace this sequence with a task rating. Difficult problems call for deeper reasoning, not automatically more code, more abstractions, or more process.
 
-Load only skills needed for the current decision or stage. A routing-only turn may name later required gates without opening them all; do not inspect every linked workflow preemptively.
+## Top-level principles
 
-## Risk First, Scheduling Second
+1. Simplicity first.
+2. Prefer the smallest sufficient implementation.
+3. Keep related behavior cohesive and dependencies intentional.
+4. Apply SOLID pragmatically, not dogmatically.
+5. Do not create abstractions for hypothetical future needs.
+6. Reuse project conventions before introducing new patterns.
+7. Comments explain why, not obvious code behavior.
+8. Break large requirements into independently verifiable tasks.
+9. Do not modify code outside the agreed scope.
+10. Use only the skills required by the current task.
+11. Preserve unrelated user changes.
+12. Once acceptance criteria are satisfied and required verification passes, stop.
 
-Choose the highest applicable level. A scheduling, approval, fallback, or cost rule cannot lower a security/data risk. Upgrade as evidence appears; any later reduction needs explicit root-cause/scope evidence and a stated rationale.
+## 1. Understand
 
-| Level | Actual affected behavior | Minimum workflow |
-|---|---|---|
-| L1 | Clear, isolated, reversible work; no architectural/public-contract change or sensitive boundary | Focused implementation, useful tests, final verification |
-| L2 | Non-trivial or cross-module work, meaningful design choices, public-contract change, uncertain diagnosis | Approved design, proportionate plan, review, final verification |
-| L3 | Changes to authorization enforcement, authentication/session handling, payment integrity, untrusted uploads/URL/file/command handling, secrets, tenant isolation, migrations, production data, concurrency, destructive operations or material integrity | L2 plus Strong-model safety decisions, rollback/failure requirements and scoped security review |
+Identify the requested `Goal`, observable `Acceptance Criteria`, `Known Constraints`, and `Explicit Non-Goals`. Do not keep asking questions when the request and repository evidence already make the required result clear. Read-only requests authorize inspection and reporting, not implementation.
 
-Mentioning a URL, file, command, or permission label is not enough for L3: inspect the changed behavior and trust boundary. A settings UI/configuration interface is L2 when server authorization and tenant isolation are unchanged; enforcement changes remain L3.
+## 2. Recon
 
-An intermittent, nondeterministic, or not-yet-reproduced API failure has an L2 floor; a security/data/concurrency boundary still makes it L3. A deterministic, reproduced, isolated bug can be L1 only with no higher-risk boundary.
+Before editing, inspect the nearest repository instructions, worktree state, relevant modules, existing boundaries, conventions, error handling, tests, and reusable capabilities. Reuse before creating. For an unfamiliar or high-impact codebase, route to `codebase-recon` when available.
 
-## Design and Plan
+## 3. Decompose
 
-L1 needs neither brainstorming nor a plan document by default.
+If the requirement contains multiple business capabilities, broad unknowns, or changes that cannot be independently verified, load [task-decomposition](../task-decomposition/SKILL.md). Keep a small, cohesive change as one task.
 
-For L2/L3, check whether the user has already approved the applicable design and implementation scope:
-- Reuse that approval and any current plan when requirements, interfaces, affected risks, and allowed actions remain unchanged. Cite the approval message or artifact; do not ask for the same approval again.
-- Without applicable approval, or when a material design/scope/risk change needs a new decision, load [brainstorming](../brainstorming/SKILL.md). Reapprove only the changed decision, without treating a general "continue" as permission for new external or destructive actions.
-- Load [writing-plans](../writing-plans/SKILL.md) when a plan is missing or needs revision. A bounded L2 plan can be concise; architectural/L3 work needs a durable plan covering safety, compatibility, failure and rollback where applicable.
+## 4. Scope Lock
 
-For L3, obtain a Sol/available Strong-tier decision on the affected boundary and safety approach before implementation; use [model-routing](../model-routing/SKILL.md) if model availability or delegation needs resolution. Never label a lower-tier self-review as Strong adjudication.
+For every implementation task, define `Must Do`, `May Do`, and `Must Not Do`. Load [scope-control](../scope-control/SKILL.md) when the boundary needs detailed handling. A discovered issue outside scope is reported, not fixed automatically.
 
-## Implementation and Bugs
+## 5. Skill Route
 
-Every bug fix loads [systematic-debugging](../systematic-debugging/SKILL.md) before implementation changes: collect reproduction evidence, establish a root cause, add a practical regression check, apply a focused fix, and recheck the original failure.
+Load only skills justified by actual work:
 
-Load [test-driven-development](../test-driven-development/SKILL.md) when test infrastructure runs, behavior is observable, and test cost is proportionate. Otherwise use safe observable alternatives and report the missing automated regression check as NOT VERIFIED with its reason. Never manufacture wording tests or pretend missing tests passed.
+- Bug, regression, failing test, or unexplained behavior -> [systematic-debugging](../systematic-debugging/SKILL.md)
+- Implementation quality, structure, naming, comments, or refactoring -> [code-quality](../code-quality/SKILL.md)
+- UI design -> `frontend-design`
+- Browser interaction or local web behavior -> `webapp-testing`
+- API contract -> `api-design`
+- Schema, query, index, migration, or data integrity -> `database-engineering`
+- Real module or system architecture change -> `backend-architecture`
+- Authentication, authorization, payment, secrets, sensitive data, unsafe input, files, commands, or another trust boundary -> `security-review`
+- Final implementation evidence -> [verification](../verification/SKILL.md), plus `project-verification` when available and applicable
 
-## Agents and Review
+If a specialist skill is unavailable, apply the same bounded concern directly and report any resulting verification limitation. Never load every skill by default.
 
-One writer is the default. Do not delegate work that the main agent can finish more cheaply than coordination. Delegation needs user or applicable-skill authorization and a bounded assignment.
+Before coding, keep a concise execution brief:
 
-For requested multi-agent work with overlapping files, shared interfaces, or shared uncommitted state, use at least L2, retaining L3 whenever applicable. Load [model-routing](../model-routing/SKILL.md) and [dispatching-parallel-agents](../dispatching-parallel-agents/SKILL.md) for the independence decision. Reject overlapping writers, serialize implementation, and retain only useful independent read-only parallel work. This branch replaces SDD selection for the overlap decision: do not load or inspect SDD merely to explain serialization, even if the original request asked for multiple agents.
+```text
+Goal:
+...
 
-For an approved plan intended for subagent execution, load [subagent-driven-development](../subagent-driven-development/SKILL.md). If the host already reports subagents unavailable, still load its serial fallback, do not attempt dispatch, preserve task boundaries, and disclose lost independence.
+Plan:
+1. ...
 
-L2/L3 implementation requires [requesting-code-review](../requesting-code-review/SKILL.md). It defines reviewer choice and the honest self-review fallback when independence is unavailable. Critical findings require explicit [model-routing](../model-routing/SKILL.md) and review workflow selection, Sol/available Strong adjudication, resolution or a delivery block, then re-review of the fix.
+Scope:
+Must Do: ...
+May Do: ...
+Must Not Do: ...
 
-After L3 review, load [security-review](../security-review/SKILL.md) for the affected boundaries. Resolve confirmed Critical/Important findings before final verification.
+Skills Needed:
+...
 
-## Completion
+Verification:
+...
+```
 
-Load [project-verification](../project-verification/SKILL.md) to select checks and maintain one current evidence ledger. Then load [verification-before-completion](../verification-before-completion/SKILL.md) to validate the claims against that same ledger, not to duplicate unchanged checks.
+## 6. Implement
 
-Report exact commands/results, FAILED required gates, and every NOT VERIFIED check with its reason. Final diff/status inspection and relevant post-change verification remain mandatory.
+Make the smallest change that satisfies the current acceptance criteria. Prefer local business code on the first demonstrated use. Generalize only after repeated, proven need or when an existing project boundary already requires it. Follow [coding standards](../../references/coding-standards.md) and the repository's more specific conventions.
+
+## 7. Quality Check
+
+Before verification, ask:
+
+- Does this solve the requested problem?
+- Is any code, abstraction, pattern, comment, test, or directory unnecessary?
+- Did anything outside scope change?
+- Are names clear, control flow readable, related code cohesive, and coupling reasonable?
+- Could the implementation be simpler without reducing correctness?
+
+Simplify only the changed solution. Do not turn this check into unrelated cleanup.
+
+## 8. Verify
+
+Load [verification](../verification/SKILL.md). Select the smallest set of checks that proves the acceptance criteria and protects the affected risk. Never claim an unrun check passed. Mark unavailable material checks as `NOT VERIFIED` with the exact reason.
+
+## 9. STOP
+
+When acceptance criteria are satisfied and required verification has passed, stop. Do not add speculative features, extra abstractions, unrelated refactors, unnecessary tests, or directory cleanup.
+
+Report:
+
+```text
+Implemented:
+...
+
+Verified:
+...
+
+Out-of-scope issues noticed:
+...
+
+No additional unrelated changes made.
+```

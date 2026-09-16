@@ -1,7 +1,7 @@
 {
   "name": "enterprise-dev-workflow",
-  "version": "0.1.0+codex.20260828022715",
-  "description": "Risk-aware enterprise software delivery workflows for Codex.",
+  "version": "2.0.0+codex.20260916021638",
+  "description": "Scope-controlled software delivery workflows for Codex.",
   "author": {
     "name": "Louyongqing",
     "url": "https://github.com/Louyongqing"
@@ -11,16 +11,17 @@
   "license": "MIT",
   "keywords": [
     "software-delivery",
-    "model-routing",
+    "scope-control",
+    "task-decomposition",
+    "code-quality",
     "verification",
-    "security-review",
-    "tdd"
+    "systematic-debugging"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Enterprise Dev Workflow",
-    "shortDescription": "Risk-aware engineering delivery gates",
-    "longDescription": "Classifies software work by risk, routes it to appropriate models and workflows, and requires current verification evidence before completion claims.",
+    "shortDescription": "Simple, scoped, verifiable software delivery",
+    "longDescription": "Turns software requests into bounded tasks, locks the agreed scope, routes only necessary skills, favors the smallest sufficient implementation, and requires current verification evidence before completion claims.",
     "developerName": "Louyongqing",
     "category": "Productivity",
     "capabilities": [
@@ -29,9 +30,9 @@
       "Write"
     ],
     "defaultPrompt": [
-      "Classify this software task as L1, L2, or L3 and apply the required delivery workflow.",
-      "Review this change and report verified and not-verified checks.",
-      "Debug this failure from evidence before proposing a fix."
+      "Apply the enterprise delivery workflow and keep the implementation within the agreed scope.",
+      "Break this large requirement into independently verifiable tasks before implementation.",
+      "Verify this change and report every unavailable check as NOT VERIFIED."
     ]
   }
 }

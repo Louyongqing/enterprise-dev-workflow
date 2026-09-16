@@ -1,0 +1,98 @@
+[
+  {
+    "id": "small-field-change",
+    "prompt": "Add one clearly specified response field to an existing function without changing unrelated behavior.",
+    "required_routes": ["enterprise-delivery", "scope-control", "code-quality", "verification"],
+    "forbidden_routes": ["task-decomposition", "backend-architecture", "security-review"],
+    "required_outcomes": ["Define observable acceptance criteria.", "Make the smallest sufficient change.", "Run focused verification and stop."],
+    "forbidden_outcomes": ["Create a new abstraction for possible future fields.", "Refactor unrelated response handling."]
+  },
+  {
+    "id": "large-user-center",
+    "prompt": "实现用户中心，包括资料查询、资料修改、头像上传、手机号修改、页面和前后端联调。",
+    "required_routes": ["enterprise-delivery", "task-decomposition", "scope-control", "verification"],
+    "forbidden_routes": [],
+    "required_outcomes": ["Split the requirement by independently verifiable business capability.", "Give every task acceptance criteria and an out-of-scope boundary.", "Keep integration verification explicit."],
+    "forbidden_outcomes": ["Implement the entire ambiguous request as one unbounded task.", "Split work into line-level chores."]
+  },
+  {
+    "id": "intermittent-api-bug",
+    "prompt": "Diagnose and fix an intermittent HTTP 500 response from an existing API endpoint.",
+    "required_routes": ["enterprise-delivery", "systematic-debugging", "verification"],
+    "forbidden_routes": ["backend-architecture"],
+    "required_outcomes": ["Collect reproduction evidence before changing production code.", "Establish the root cause.", "Verify the original failure path after the smallest fix."],
+    "forbidden_outcomes": ["Patch the first plausible location without evidence.", "Redesign the whole API module."]
+  },
+  {
+    "id": "frontend-screen",
+    "prompt": "Build a new responsive account settings screen using the existing component library and verify its interactions.",
+    "required_routes": ["enterprise-delivery", "frontend-design", "webapp-testing", "verification"],
+    "forbidden_routes": ["database-engineering", "backend-architecture"],
+    "required_outcomes": ["Reuse the existing design system.", "Exercise the affected behavior in a browser.", "Check relevant responsive states."],
+    "forbidden_outcomes": ["Introduce a new global UI framework."]
+  },
+  {
+    "id": "api-contract",
+    "prompt": "Add an avatar upload endpoint to the existing user module and keep its request, response, auth, and errors consistent with the current API.",
+    "required_routes": ["enterprise-delivery", "api-design", "security-review", "verification"],
+    "forbidden_routes": ["backend-architecture"],
+    "required_outcomes": ["Inspect and reuse the existing upload and API conventions.", "Review the real upload trust boundary.", "Verify success and relevant error cases."],
+    "forbidden_outcomes": ["Create a universal storage framework.", "Redesign the authentication system."]
+  },
+  {
+    "id": "database-migration",
+    "prompt": "Add a tracked schema migration for a required field and verify the affected query against disposable data.",
+    "required_routes": ["enterprise-delivery", "database-engineering", "verification"],
+    "forbidden_routes": [],
+    "required_outcomes": ["Inspect the existing schema and queries first.", "Use a traceable migration.", "Verify compatibility and the affected query without production data."],
+    "forbidden_outcomes": ["Modify unrelated tables.", "Add speculative columns."]
+  },
+  {
+    "id": "architecture-change",
+    "prompt": "Redesign module boundaries and cross-service communication for the order domain.",
+    "required_routes": ["enterprise-delivery", "task-decomposition", "backend-architecture", "scope-control", "verification"],
+    "forbidden_routes": [],
+    "required_outcomes": ["Inspect current dependency direction and contracts.", "Split the change into bounded migration steps.", "Verify the approved architecture rather than expanding it."],
+    "forbidden_outcomes": ["Treat ordinary CRUD as a reason for a system redesign."]
+  },
+  {
+    "id": "authorization-boundary",
+    "prompt": "Change server-side tenant authorization so franchisees can only access their own records.",
+    "required_routes": ["enterprise-delivery", "security-review", "scope-control", "verification"],
+    "forbidden_routes": [],
+    "required_outcomes": ["Inspect trusted identity and server enforcement.", "Verify denied and cross-tenant paths.", "Keep the fix focused on the affected trust boundary."],
+    "forbidden_outcomes": ["Claim frontend filtering alone enforces isolation.", "Refactor unrelated permissions."]
+  },
+  {
+    "id": "read-only-diagnosis",
+    "prompt": "Inspect this unfamiliar repository and explain why the failing request occurs. Do not implement a fix.",
+    "required_routes": ["codebase-recon", "systematic-debugging"],
+    "forbidden_routes": ["code-quality", "verification"],
+    "required_outcomes": ["Map the relevant request path and evidence.", "Report the root cause or remaining uncertainty without editing files."],
+    "forbidden_outcomes": ["Treat diagnosis as authorization to implement."]
+  },
+  {
+    "id": "dirty-worktree",
+    "prompt": "Implement a focused change while preserving unrelated uncommitted user edits.",
+    "required_routes": ["enterprise-delivery", "scope-control", "verification"],
+    "forbidden_routes": [],
+    "required_outcomes": ["Inspect status before editing.", "Avoid overwriting or reverting unrelated changes.", "Check the final diff against the scope lock."],
+    "forbidden_outcomes": ["Clean or reset unrelated worktree changes."]
+  },
+  {
+    "id": "missing-test-infrastructure",
+    "prompt": "Make a bounded change in a project that has no runnable automated test infrastructure.",
+    "required_routes": ["enterprise-delivery", "verification"],
+    "forbidden_routes": [],
+    "required_outcomes": ["Use safe available observable checks.", "Report automated regression coverage as NOT VERIFIED with the exact reason."],
+    "forbidden_outcomes": ["Claim tests passed.", "Introduce an unrelated test framework solely for this change."]
+  },
+  {
+    "id": "scope-expansion",
+    "prompt": "While adding a report filter, you notice an unrelated permissions bug. The requested filter is not blocked by it.",
+    "required_routes": ["enterprise-delivery", "scope-control", "verification"],
+    "forbidden_routes": ["security-review"],
+    "required_outcomes": ["Complete only the report filter.", "Report the permissions issue as out of scope."],
+    "forbidden_outcomes": ["Fix the permissions issue without authorization.", "Use the discovery to broaden the task."]
+  }
+]

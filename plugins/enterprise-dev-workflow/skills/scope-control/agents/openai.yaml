@@ -1,0 +1,6 @@
+interface:
+  display_name: "Scope Control"
+  short_description: "Lock changes to the agreed task boundary"
+  default_prompt: "Use $scope-control to define Must Do, May Do, and Must Not Do before changing code."
+policy:
+  allow_implicit_invocation: false

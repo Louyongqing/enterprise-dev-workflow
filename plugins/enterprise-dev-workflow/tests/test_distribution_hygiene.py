@@ -1,64 +1,64 @@
 """Regression checks for the shareable package boundary."""
-
+import json
+import re
 import unittest
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = ROOT.parents[1]
+EXPECTED_SKILLS = {
+    "code-quality", "enterprise-delivery", "scope-control",
+    "systematic-debugging", "task-decomposition", "verification",
+}
 
 
 class DistributionHygieneTests(unittest.TestCase):
-    def test_removed_upstream_development_artifacts_stay_removed(self):
-        debug_dir = ROOT / "skills" / "systematic-debugging"
-        for name in (
-            "CREATION-LOG.md",
-            "test-academic.md",
-            "test-pressure-1.md",
-            "test-pressure-2.md",
-            "test-pressure-3.md",
-        ):
+    def test_package_contains_only_the_six_v2_skills(self):
+        actual = {
+            path.name for path in (ROOT / "skills").iterdir()
+            if path.is_dir() and (path / "SKILL.md").is_file()
+        }
+        self.assertEqual(EXPECTED_SKILLS, actual)
+
+    def test_required_references_exist(self):
+        for name in ("coding-standards.md", "comments.md", "testing.md", "task-template.md"):
             with self.subTest(name=name):
-                self.assertFalse((debug_dir / name).exists())
+                self.assertTrue((ROOT / "references" / name).is_file())
 
-    def test_no_stale_upstream_paths_in_shipped_text(self):
-        forbidden = (
-            "docs/superpowers/specs",
-            "skills/debugging/systematic-debugging",
-            "skills/meta/testing-skills-with-subagents",
-            "skills/testing/test-driven-development",
+    def test_manifest_describes_v2_scope_control(self):
+        manifest = json.loads((ROOT / ".codex-plugin" / "plugin.json").read_text(encoding="utf-8"))
+        self.assertRegex(manifest["version"], r"^2\.0\.0(?:\+codex\.[A-Za-z0-9._-]+)?$")
+        rendered = json.dumps(manifest).lower()
+        self.assertIn("scope", rendered)
+        self.assertNotIn("model-routing", rendered)
+        self.assertIsInstance(manifest["interface"]["defaultPrompt"], list)
+
+    def test_removed_contracts_are_absent_from_shipped_text(self):
+        patterns = (
+            re.compile(r"\bL[123]\b"),
+            re.compile("model" + "-routing", re.IGNORECASE),
+            re.compile("model" + r"[ -]selection", re.IGNORECASE),
         )
-        for path in ROOT.rglob("*"):
-            if not path.is_file() or path.suffix.lower() not in {".md", ".sh", ".cjs", ".js"}:
-                continue
+        roots = (ROOT, REPO_ROOT / "README.md")
+        paths = []
+        for candidate in roots:
+            if candidate.is_file():
+                paths.append(candidate)
+            else:
+                paths.extend(path for path in candidate.rglob("*") if path.is_file() and path.suffix.lower() in {".md", ".json", ".yaml", ".yml"})
+        for path in paths:
             text = path.read_text(encoding="utf-8")
-            for marker in forbidden:
-                with self.subTest(path=path.relative_to(ROOT), marker=marker):
-                    self.assertNotIn(marker, text)
+            for pattern in patterns:
+                with self.subTest(path=path.relative_to(REPO_ROOT), pattern=pattern.pattern):
+                    self.assertIsNone(pattern.search(text))
 
-    def test_brainstorm_runtime_is_ephemeral_and_separate_from_content(self):
-        launcher = (ROOT / "skills" / "brainstorming" / "scripts" / "start-server.sh").read_text(encoding="utf-8")
-        server = (ROOT / "skills" / "brainstorming" / "scripts" / "server.cjs").read_text(encoding="utf-8")
-        self.assertIn('BRAINSTORM_RUNTIME_DIR=', launcher)
-        self.assertIn('mktemp -d', launcher)
-        self.assertIn('SESSION_DIR="$BRAINSTORM_RUNTIME_DIR"', launcher)
-        self.assertIn('BRAINSTORM_PROJECT_BASE="${PROJECT_DIR}/.enterprise-dev-workflow/brainstorm"', launcher)
-        self.assertIn('BRAINSTORM_CONTENT_SESSION=', launcher)
-        self.assertIn('CONTENT_DIR="${BRAINSTORM_CONTENT_SESSION}/content"', launcher)
-        self.assertIn('BRAINSTORM_IGNORE_FILE="${BRAINSTORM_CONTENT_SESSION}/.gitignore"', launcher)
-        self.assertIn('BRAINSTORM_CONTENT_DIR="$CONTENT_DIR"', launcher)
-        self.assertIn("process.env.BRAINSTORM_CONTENT_DIR", server)
-        self.assertIn("session_dir: SESSION_DIR", server)
-        self.assertNotIn("BRAINSTORM_TOKEN_FILE", launcher + server)
-        self.assertNotIn("BRAINSTORM_PORT_FILE", launcher + server)
-        self.assertNotIn("process.env.BRAINSTORM_TOKEN", server)
-        self.assertNotIn("process.env.BRAINSTORM_PORT", server)
-        stop = (ROOT / "skills" / "brainstorming" / "scripts" / "stop-server.sh").read_text(encoding="utf-8")
-        self.assertNotIn("rm -rf", stop)
-
-    def test_visual_companion_does_not_auto_load_remote_brand_image(self):
-        server = (ROOT / "skills" / "brainstorming" / "scripts" / "server.cjs").read_text(encoding="utf-8")
-        self.assertNotIn("SUPERPOWERS_BRAND_IMAGE_URL", server)
-        self.assertNotIn("primeradiant.com/brand/", server)
+    def test_no_generated_or_secret_artifacts(self):
+        forbidden_names = {"__pycache__", ".pytest_cache", ".env", "node_modules"}
+        for path in ROOT.rglob("*"):
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertNotIn(path.name, forbidden_names)
+                self.assertNotEqual(".pyc", path.suffix.lower())
 
     def test_verification_commands_have_no_unresolved_placeholders(self):
         report = (ROOT / "docs" / "verification.md").read_text(encoding="utf-8")
